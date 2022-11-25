@@ -1,0 +1,8 @@
+! Configure additional security policies
+!
+configure terminal
+!
+! 
+!
+ip dhcp snooping
+ip dhcp snooping vlan {vlan-id}
