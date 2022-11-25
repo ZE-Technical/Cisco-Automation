@@ -1,0 +1,34 @@
+! Configure Ether-Channels with LACP
+!
+configure terminal
+!
+! Configure Layer 2 LACP Ether-Channel
+!
+default interface range gigabitethernet {port-range}
+!
+interface range gigabitethernet {port-range}
+  channel-group {channel-id} mode active
+!
+interface port-channel {channel-id}
+  description LAGG to {upstream-device}
+  switchport mode trunk
+  switchport nonegotiate
+  switchport trunk allowed vlan {vlan-id-range}
+!
+! Configure Layer 3 LACP Ether-Channel
+!
+default interface range gigabitethernet {port-range}
+!
+interface range gigabitethernet {port-range}
+  no switchport
+  channel-group {channel-id} mode active
+
+interface port-channel {channel-id}
+  description LAGG to {upstream-device}
+  ip address {ip-address} {subnet-mask}
+  no shutdown
+!
+! Configure Ether-Channel "Load Balancing"
+!
+port-channel load-balancing src-dst-ip
+!
