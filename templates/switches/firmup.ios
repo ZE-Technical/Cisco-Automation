@@ -1,0 +1,21 @@
+! Upgrade device firmware
+!
+copy running-config startup-config
+!
+copy startup-config tftp://{tftpsrv-ip}/configs/startup/
+copy running-config tftp://{tftpsrv-ip}/configs/running/
+!
+copy tftp://{tftpsrv-ip}/{dest-path} bootflash:
+!
+verify /md5 bootflash:{image}
+!
+configure terminal
+!
+no boot system
+boot system flash bootflash:{image}
+end
+copy running-config startup-config
+!
+show startup-config | include boot
+!
+reload
