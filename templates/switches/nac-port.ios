@@ -1,0 +1,42 @@
+! Add/Remove NAC from Interface
+!
+ip access-group default_port_acl in
+authentication host-mode multi-domain
+authentication order dot1x mab
+authentication priority dot1x mab
+authentication port-control auto
+authentication timer reauthenticate server
+authentication violation restrict
+mab
+trust device cisco-phone
+dot1x pae authenticator
+dot1x timeout server-timeout 10
+dot1x timeout tx-period 10
+dot1x timeout supp-timeout 15
+dot1x max-reauth-req 1
+auto qos voip cisco-phone
+spanning-tree portfast
+service-policy input AutoQos-4.0-CiscoPhone-Input-Policy
+service-policy output AutoQos-4.0-Output-Policy
+!
+! Remove NAC from Interface
+!
+no ip access-group default_port_acl in
+no authentication host-mode multi-domain
+no authentication order dot1x mab
+no authentication priority dot1x mab
+no authentication port-control auto
+no authentication timer reauthenticate server
+no authentication violation restrict
+no mab
+no trust device cisco-phone
+no dot1x pae authenticator
+no dot1x timeout server-timeout 10
+no dot1x timeout tx-period 10
+no dot1x timeout supp-timeout 15
+no dot1x max-reauth-req 1
+no auto qos voip cisco-phone
+no spanning-tree portfast
+no service-policy input AutoQos-4.0-CiscoPhone-Input-Policy
+no service-policy output AutoQos-4.0-Output-Policy
+!
