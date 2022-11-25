@@ -1,0 +1,27 @@
+! Configure NAC Globaly 
+!
+configure terminal
+!
+aaa new-model
+!
+aaa authentication dot1x default group radius
+aaa authorization network default group radius
+aaa accounting dot1x default start-stop group radius
+!
+aaa server radius dynamic-author
+  client {primary-radius-ip} server-key 7 {primary-radius-key}
+  client {secondary-radius-ip} server-key 7 {secondary-radius-key}
+  port 3799
+  auth-type all
+!
+radius-server attribute 11 default direction in
+radius-server retransmit 2
+radius-server timeout 3
+!
+radius server {primary-radius-name}
+  address ipv4 {primary-radius-ip} auth-port 1812 acct-port 1813
+  key {radius-key}
+!
+radius server {secondary-radius-name}
+  address ipv4 {secondary-radius-ip} auth-port 1812 acct-port 1813
+  key {radius-key}
