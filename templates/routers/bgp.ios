@@ -1,0 +1,17 @@
+! Configure BGP
+!
+! eBGP
+router bgp {ASN}
+  address-family ipv4 unicast
+  bgp-log-neighbor-changes
+  network {bgp-net-id} mask {bgp-subnet-mask}
+  neighbor {bgp-neighbor-ip} remote-as {bgp-neighbor-ASN}
+  redistribute connected subnets
+! iBGP
+router bgp {ASN}
+  address-family ipv4 unicast
+  bgp-log-neighbor-changes
+  network {bgp-net-id} mask {bgp-subnet-mask}
+  neighbor {bgp-neighbor-ip} remote-as {ASN}
+  redistribute connected subnets
+!
