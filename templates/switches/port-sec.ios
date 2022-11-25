@@ -1,0 +1,22 @@
+! Add/Remove Port Security from an Interface
+!
+configure terminal
+!
+interface gigabitethernet {port-num}
+  switchport port-security mac-address sticky
+  switchport port-security violation shutdown
+  switchport port-security maximum {mac-num}
+  switchport port-security 
+!
+! Remove Port Security
+!
+configure terminal
+!
+clear port-security all interface gigabitethernet {port-num}
+!
+interface gigabitethernet {port-num}
+  no switchport port-security mac-address sticky
+  no switchport port-security violation
+  no switchport port-security maximum
+  no switchport port-security 
+!
