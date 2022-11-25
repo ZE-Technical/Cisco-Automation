@@ -1,0 +1,12 @@
+! Create ACLs
+!
+configure terminal
+!
+ip access-list extended linit-ssh-access
+  permit tcp {admin-vlan-subnet} any eq 22
+  deny tcp any any eq 22 
+!
+ip access-list extended deny-parking-lot
+  deny ip {parking-lot-subnet} any
+  permit ip any any
+!
