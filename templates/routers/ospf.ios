@@ -1,0 +1,13 @@
+! Configure OSPF version 2 for IPv4 Networking
+!
+configure terminal
+!
+interface loopback 1
+  ip address {site-id}.{site-id}.{site-id}.{site-id} 255.255.255.255
+!
+router ospf 1
+  redistribute connected subnets
+!
+interface gigabitethernet {int-id}
+  ip ospf 1 area {ospf-area}
+!
