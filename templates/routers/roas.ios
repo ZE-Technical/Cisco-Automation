@@ -1,0 +1,104 @@
+! Configure Router on a Stick
+!
+configure terminal
+!
+interface gigabitethernet 0/0.3
+  description Data
+  encapsulation dot1q 3
+  ip address 10.{site-id}.3.254 255.255.255.0
+  ip helper-address 192.55.55.13
+  ip helper-address 192.77.77.106
+  ip helper-address 192.168.100.58
+  ip helper-address 192.168.200.58
+  no ip redirects
+!
+interface gigabitethernet 0/0.4
+  description Facilities
+  encapsulation dot1q 4
+  ip address 10.{site-id}.4.254 255.255.255.0
+  ip helper-address 192.55.55.13
+  ip helper-address 192.77.77.106
+  ip helper-address 192.168.100.58
+  ip helper-address 192.168.200.58
+  no ip redirects
+!
+interface gigabitethernet 0/0.5
+  description ECR/Printer
+  encapsulation dot1q 5
+  ip address 10.{site-id}.5.254 255.255.255.0
+  ip helper-address 192.55.55.13
+  ip helper-address 192.77.77.106
+  ip helper-address 192.168.100.58
+  ip helper-address 192.168.200.58
+  no ip redirects
+!
+interface gigabitethernet 0/0.13
+  description Video
+  encapsulation dot1q 13
+  ip address 10.{site-id}.13.254 255.255.255.0
+  ip helper-address 192.55.55.13
+  ip helper-address 192.77.77.106
+  ip helper-address 192.168.100.58
+  ip helper-address 192.168.200.58
+  no ip redirects
+!
+interface gigabitethernet 0/0.18
+  description Vendor
+  encapsulation dot1q 18
+  ip address 10.{site-id}.18.254 255.255.255.0
+  ip helper-address 192.55.55.13
+  ip helper-address 192.77.77.106
+  ip helper-address 192.168.100.58
+  ip helper-address 192.168.200.58
+  no ip redirects
+!
+interface gigabitethernet 0/0.50
+  description Voice
+  encapsulation dot1q 50
+  ip address 10.{site-id}.50.254 255.255.255.0
+  ip helper-address 192.55.55.13
+  ip helper-address 192.77.77.106
+  ip helper-address 192.168.100.58
+  ip helper-address 192.168.200.58
+  no ip redirects
+!
+interface gigabitethernet 0/0.252
+  description Wifi-Data
+  encapsulation dot1q 252
+  ip address 10.{site-id}.252.254 255.255.255.0
+  ip helper-address 192.55.55.13
+  ip helper-address 192.77.77.106
+  ip helper-address 192.168.100.58
+  ip helper-address 192.168.200.58
+  no ip redirects
+!
+interface gigabitethernet 0/0.254
+  description Wifi-MGMT
+  encapsulation dot1q 254
+  ip address 10.{site-id}.254.254 255.255.255.0
+  ip helper-address 192.55.55.13
+  ip helper-address 192.77.77.106
+  no ip redirects
+!
+interface gigabitethernet 0/0.255
+  description Management
+  encapsulation dot1q 255
+  ip address 10.{site-id}.255.254 255.255.255.0
+  no ip redirects
+!
+interface gigabitethernet 0/0.991
+  description ATM
+  encapsulation dot1q 991
+  ip address 172.17.{site-id}.254 255.255.255.0
+  no ip redirects
+!
+interface gigabitethernet 0/0.4000
+  description Data
+  encapsulation 172.31.{site-id}.254 dot1q 4000
+  ip address  255.255.255.0
+  ip helper-address 192.55.55.13
+  ip helper-address 192.77.77.106
+  ip helper-address 192.168.100.58
+  ip helper-address 192.168.200.58
+  no ip redirects
+!
