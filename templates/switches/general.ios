@@ -1,0 +1,33 @@
+! General configuration for switches
+!
+configure terminal
+!
+interface loopback 1
+  ip address {site-id}.{site-id}.{site-id}.{site-id} 255.255.255.255
+!
+login on-failure log
+login on-success log
+!
+ip default-gateway {router-ip}
+!
+no ip http server
+no ip http secure-server
+!
+vtp version 3
+vtp mode off
+!
+ntp server {router-ip} {key 7}
+ntp authentication-key 7 md5 {ntp-pass}
+ntp trusted-key 7
+ntp source loopback 1
+!
+logging enable
+service timestamps log datetime localtime
+service timestamps debug datetime localtime
+!
+interface range gigabitethernet {port-range}
+  switchport nonegotiate
+  switchport mode access
+  switchport access vlan {parking-lot-vlan-id}
+  spanning-tree portfast
+  spanning-tree bpduguard enable
