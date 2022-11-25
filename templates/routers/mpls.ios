@@ -1,0 +1,38 @@
+! Configure MPLS
+!
+! Configure Layer 3 interfaces and have them participate in OSPF process (Use Backbone network for MPLS CORE (Area 0))
+configure terminal
+!
+hostname {router-hostname}
+!
+interface loopback 1
+  ip address {loopback-ip} 255.255.255.255
+  no shutdown
+!
+router ospf 1
+  redistribute connected subnets
+!
+interface gigabitethernet {port}
+  ip address {port-ip} 255.255.255.252
+  ip ospf 1 area 0
+  no shutdown
+! Configure LDP on all interfaces in MPLS CORE
+router ospf 1
+  mpls ldp autoconfig
+! Create BGP neighbor adjacency through MPLS tunnel
+router bgp {my-AS#}
+  neighbor {neighbor-loopback-ip} remote-as {my-AS#}
+  neighbor {neighbor-loopback-ip} update-source Loopback 1
+  no auto-summary
+  !
+  address-family vpnv4
+    neighbor {neighbor-loopback-ip} activate
+! Configure VRF on MPLS CORE Edge router interfaces
+ip vrf {vrf-name}
+  rd 4:4
+  router-target both 4:4
+!
+interface gigabitethernet {port}
+  ip vrf forwarding {vrf-name}
+  ip address {port-ip} 255.255.255.252
+!
