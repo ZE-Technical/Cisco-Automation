@@ -1,0 +1,10 @@
+! Configure STP
+!
+confiure terminal
+!
+spanning-tree mode rapid-pvst
+!
+spanning-tree pathcost method long
+!
+spanning-tree vlan 1-4094 priority {0,4096,8192}
+!
