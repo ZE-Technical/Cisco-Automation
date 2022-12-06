@@ -1,0 +1,45 @@
+---
+
+  - name: Switch General Configuration
+    hosts: "{{ switch_ip }}"
+
+    tasks:
+
+    - name: Create Hostname
+      cisco.ios.ios_config:
+        lines:
+        - hostname '{{ site_name }}'-'{{ switch_model }}'
+    
+    - name: Create Enable Password
+      cisco.ios.ios_config:
+        lines:
+        - enable secret '{{ enable_secret }}'
+
+    - name: Add to domain
+      cisco.ios.ios_config:
+        lines:
+        - ip domain name canvas.local
+
+    - name: Disable VTP
+      cisco.ios.ios_config:
+        lines:
+        - vtp mode off
+
+    - name: Establish Default Gateway
+      cisco.ios.ios_config:
+        lines:
+        - ip default-gateway 10.'{{ site_id }}'.255.254
+
+    - name: Configure STP
+      cisco.ios.ios_config:
+        lines:
+        - spanning-tree mode rapid-pvst
+        - spanning-tree extend system-id
+
+    - name: Set http Settings
+      cisco.ios.ios_config:
+        lines:
+        - ip forward-protocol nd
+        - no ip http server
+        - ip http authentication local
+        - no ip http secure-server

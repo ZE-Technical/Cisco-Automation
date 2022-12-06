@@ -25,12 +25,6 @@
   connection: local
   vars_files:
    - ../group-vars/vars.yaml
-
-  tasks:
-    - name: Copy Run Start
-      ios_command:
-        commands:
-         - copy running-configuration startup-configuration
          
   tasks:
     - name: Run show run 

@@ -1,0 +1,85 @@
+---
+
+  - name: Configure Switch Interfaces
+    hosts: "{{ switch_ip }}"
+
+    tasks:
+
+    - name: Configure LAN-Data Ports
+      cisco.ios.ios_config:
+        lines:
+        - interface range '{{ data_int }}'
+        - switchport mode access
+        - switchport access vlan 3
+        - spanning-tree portfast
+
+    - name: Configure Facilities Ports
+      cisco.ios.ios_config:
+        lines:
+        - interface range '{{ facilities_int }}'
+        - switchport mode access
+        - switchport access vlan 4
+        - spanning-tree portfast
+
+    - name: Configure ECR/Printer Ports
+      cisco.ios.ios_config:
+        lines:
+        - interface range '{{ ecr_printers_int }}'
+        - switchport mode access
+        - switchport access vlan 5
+        - spanning-tree portfast
+
+    - name: Configure Video Ports
+      cisco.ios.ios_config:
+        lines:
+        - interface range '{{ video_int }}'
+        - switchport mode access
+        - switchport access vlan 13
+        - spanning-tree portfast
+
+    - name: Configure Vendor Ports
+      cisco.ios.ios_config:
+        lines:
+        - interface range '{{ vendor_int }}'
+        - switchport mode access
+        - switchport access vlan 18
+        - spanning-tree portfast
+
+    - name: Configure Voice Ports
+      cisco.ios.ios_config:
+        lines:
+        - interface range '{{ voice_int }}'
+        - switchport mode access
+        - switchport access vlan 50
+
+    - name: Configure WAP Ports
+      cisco.ios.ios_config:
+        lines:
+        - interface range '{{ wap_int }}'
+        - description WAP
+        - switchport mode trunk
+        - switchport trunk native vlan 254
+        - switchport trunk allowed vlan 252,254
+
+    - name: Configure MGMT Ports
+      cisco.ios.ios_config:
+        lines:
+        - interface range '{{ mgmt_int }}'
+        - switchport mode access
+        - switchport access vlan 255
+        - spanning-tree portfast
+
+    - name: Configure ATM Ports
+      cisco.ios.ios_config:
+        lines:
+        - interface range '{{ atm_int }}'
+        - switchport mode access
+        - switchport access vlan 991
+        - spanning-tree portfast
+
+    - name: Configure Uplink Ports
+      cisco.ios.ios_config:
+        lines:
+        - interface range '{{ uplinks_int }}'
+        - switchport mode trunk
+
