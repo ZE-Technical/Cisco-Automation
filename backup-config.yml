@@ -1,0 +1,83 @@
+---
+# Playbook for IOS device Running config backups
+
+- hosts: localhost
+
+  tasks:
+   - name: Get ansible date/time facts
+     setup:
+       filter: "ansible_date_time"
+       gather_subset: "!all"
+
+   - name: Store DTG as fact
+     set_fact:
+       DTG: "{{ ansible_date_time.date }}"
+
+   - name: Create Directory {{hostvars.localhost.DTG}}
+     file:
+      path: ~/network-programmability/backups/{{hostvars.localhost.DTG}}
+      state: directory
+  run_once: true
+
+- name: Backup Running Config - Routers
+  hosts: ISR Routers
+  gather_facts: false
+  connection: local
+  vars_files:
+   - ../group-vars/vars.yaml
+
+  tasks:
+    - name: Copy Run Start
+      ios_command:
+        commands:
+         - copy running-configuration startup-configuration
+         
+  tasks:
+    - name: Run show run 
+      ios_command:
+        commands: 
+         - show running-configuration
+      register: config
+
+    - name: Save Output to /etc/ansible/backups/routers/
+      copy:
+        content: "{{config.stdout[0]}}"
+        dest: "C:/Users/zacht/backups/routers/{{hostvars.localhost.DTG}}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
+        # dest: "/etc/ansible/backups/routers/show_run_{{ inventory_hostname }}.txt"
+
+- name: Backup Running Config - Switches
+  hosts: Catalyst Switches
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Copy Run Start
+      ios_command:
+        commands:
+         - copy running-configuration startup-configuration
+    
+    - name: Run show run 
+      ios_command:
+        commands: 
+         - show running-configuration
+      register: config
+
+    - name: Save Output to /etc/ansible/backups/switches/
+      copy:
+        content: "{{config.stdout[0]}}"
+        dest: "C:/Users/zacht/backups/switches/{{hostvars.localhost.DTG}}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
+        # dest: "/etc/ansible/backups/switches/show_run_{{ inventory_hostname }}.txt"
+
+- name: Backup Nexus Switch Config
+  hosts: NXOS Switches
+
+  tasks:
+   - name: Backup NEXUS with cli_command
+     cli_command:
+       command: show run | be ver
+     register: config 
+
+   - name: Save output to ~/network-programmability/backups/
+     copy:
+       content: "{{config.stdout}}"
+       dest: "C:/Users/zacht/backups/Nexus/{{hostvars.localhost.DTG}}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"

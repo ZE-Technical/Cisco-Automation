@@ -1,5 +1,7 @@
 ! Upgrade device firmware
 !
+ip tftp source-interface gigabitethernet {mgmt-interface}
+!
 copy running-config startup-config
 !
 copy startup-config tftp://{tftpsrv-ip}/configs/startup/
