@@ -2,6 +2,11 @@
 
   - name: Switch General Configuration
     hosts: "{{ switch_ip }}"
+    vars: 
+    site_name: "Lab"
+    switch_model: "3650"
+    enable_secret: ""
+    site_id: "199"
 
     tasks:
 
@@ -13,7 +18,7 @@
     - name: Create Enable Password
       cisco.ios.ios_config:
         lines:
-        - enable secret '{{ enable_secret }}'
+        - enable algorythm-type scrypt secret '{{ enable_secret }}'
 
     - name: Add to domain
       cisco.ios.ios_config:

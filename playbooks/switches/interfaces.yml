@@ -2,6 +2,8 @@
 
   - name: Configure Switch Interfaces
     hosts: "{{ switch_ip }}"
+    vars:
+    
 
     tasks:
 
